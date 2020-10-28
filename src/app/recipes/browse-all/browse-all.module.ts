@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { DiscoverPageRoutingModule } from './discover-routing.module';
+import { BrowseAllPageRoutingModule } from './browse-all-routing.module';
 
-import { DiscoverPage } from './discover.page';
+import { BrowseAllPage } from './browse-all.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    DiscoverPageRoutingModule
+    BrowseAllPageRoutingModule
   ],
-  declarations: [DiscoverPage]
+  declarations: [BrowseAllPage]
 })
-export class DiscoverPageModule {}
+export class BrowseAllPageModule {}

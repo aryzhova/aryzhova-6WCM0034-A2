@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { DiscoverPage } from './discover.page';
+import { BrowseAllPage } from './browse-all.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: DiscoverPage
+    component: BrowseAllPage
   },
   {
     path: 'recipe-detail',
@@ -18,4 +18,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class DiscoverPageRoutingModule {}
+export class BrowseAllPageRoutingModule {}

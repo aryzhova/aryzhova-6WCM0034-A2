@@ -4,7 +4,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'recipes',
+    redirectTo: 'recipes/tabs/browse-all',
     pathMatch: 'full'
   },
   {
@@ -18,7 +18,7 @@ const routes: Routes = [
   {
     path: 'saved-recipes',
     loadChildren: () => import('./saved-recipes/saved-recipes.module').then( m => m.SavedRecipesPageModule)
-  },
+  }
 ];
 
 @NgModule({
