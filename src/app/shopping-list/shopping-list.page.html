@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+      </ion-buttons> 
+    <ion-title>Shopping List</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list >
+    <ion-card 
+      *ngFor="let item of shoppingItems; let i= index; let o = odd; let e=even"
+      [ngClass]="{'odd': o, 'even': e}"
+      class="ion-no-margin">
+      <ion-checkbox color="primary" class="ion-margin"></ion-checkbox>
+      <ion-label>{{ item }}</ion-label>
+        <ion-buttons class="right">
+          <ion-button>
+            <ion-icon name="close-circle-outline" slot="icon-only"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+    </ion-card>
+    
+  </ion-list>
+</ion-content>
