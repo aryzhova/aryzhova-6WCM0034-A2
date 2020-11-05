@@ -13,8 +13,8 @@
       *ngFor="let item of shoppingItems; let i= index; let o = odd; let e=even"
       [ngClass]="{'odd': o, 'even': e}"
       class="ion-no-margin">
-      <ion-checkbox color="primary" class="ion-margin"></ion-checkbox>
-      <ion-label>{{ item }}</ion-label>
+      <ion-checkbox color="primary" class="ion-margin ion-float-left"></ion-checkbox>
+      <p class="ion-margin ion-float-left">{{ item }}</p>
         <ion-buttons class="right">
           <ion-button>
             <ion-icon name="close-circle-outline" slot="icon-only"></ion-icon>
