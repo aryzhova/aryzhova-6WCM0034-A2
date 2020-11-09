@@ -11,32 +11,37 @@
   <ion-grid>
     <ion-row>
       <ion-col size="12" size-sm="8" offset-sm="2" class="ion-text-center">
-        <ion-card  [routerLink] = "['/', 'recipes', 'tabs', 'browse-all', fetchedRecipes[0].id]" class="white-background">
+        <ion-card  
+          [routerLink] = "['/', 'recipes', 'tabs', 'browse-all', fetchedRecipes[0].id]" 
+          class="white-background">
           <ion-card-header>
             <ion-card-title>{{ fetchedRecipes[0].title }}</ion-card-title>
           </ion-card-header>
           <ion-img [src] ="fetchedRecipes[0].imageUrl"></ion-img>
           <ion-card-content>
-            <p>{{ fetchedRecipes[0].description }}</p>
+            <p>Prep time: {{ fetchedRecipes[0].preptime }} mins</p>
           </ion-card-content>
         </ion-card>
       </ion-col>
     </ion-row>
     <ion-row>
-      <ion-col style="background-color: white;" size="12" size-sm="8" offset-sm="2" class="ion-text-center">
-        
-          <ion-item  
-             *ngFor="let recipe of fetchedRecipes.slice(1)"
+      <ion-col 
+        size="6" 
+        size-sm="8" 
+        offset-sm="2"
+        *ngFor="let recipe of fetchedRecipes.slice(1)"
+        class="ion-no-padding">
+          <ion-card 
              [routerLink] = "['/', 'recipes', 'tabs', 'browse-all', recipe.id ]"
-             detail >
-            <ion-thumbnail slot="start" >
-              <ion-img [src]="recipe.imageUrl"></ion-img>
-            </ion-thumbnail>
-            <ion-label>
-              <h2>{{recipe.title}}</h2>
-              <p>{{recipe.description}}</p>
-            </ion-label>
-          </ion-item>
+             class="white-background" >
+             <ion-img [src] ="recipe.imageUrl"></ion-img>
+             <ion-card-header>
+              <h6>{{ recipe.title }}</h6>
+            </ion-card-header>
+            <ion-card-content>
+              <p>Prep time: {{ recipe.preptime }}'</p>
+            </ion-card-content>
+          </ion-card>
        
       </ion-col >
     </ion-row>

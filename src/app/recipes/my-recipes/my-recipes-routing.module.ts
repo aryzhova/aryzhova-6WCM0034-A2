@@ -13,7 +13,7 @@ const routes: Routes = [
     loadChildren: () => import('./new-recipe/new-recipe.module').then( m => m.NewRecipePageModule)
   },
   {
-    path: 'edit-recipe',
+    path: 'edit-recipe/:recipeId',
     loadChildren: () => import('./edit-recipe/edit-recipe.module').then( m => m.EditRecipePageModule)
   }
 ];

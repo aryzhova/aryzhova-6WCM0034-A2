@@ -3,9 +3,30 @@
 }
 
 .even {
-    background-color: #d4fce6;
+    background-color: var(--ion-background-color);
+}
+
+ion-col{ 
+    ion-input{ 
+        margin-top: 2px;
+        border: solid 1px var(--ion-color-primary);
+        border-radius: 10px;
+    }
 }
 
 .right {
     float: right;
+    margin-top: 3px;
+}
+
+ion-icon {
+    color: var(--ion-color-primary);
+}
+
+p {
+    color: black;
+}
+
+ion-card {
+    margin: 1px;
 }

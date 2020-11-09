@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/recipes/tabs/browse-all"></ion-back-button>
     </ion-buttons>
-    <ion-title>Recipe Detail</ion-title>
+    <ion-title>{{ recipe.title }}</ion-title>
     <ion-buttons slot="primary">
       <ion-icon name="bookmark-outline" slot="icon-only" (click) = "onSaveRecipe()"></ion-icon>
     </ion-buttons>
