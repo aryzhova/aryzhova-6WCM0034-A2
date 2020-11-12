@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormArray, FormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
+import { RecipesService } from '../../recipes.service';
 
 @Component({
   selector: 'app-new-recipe',
@@ -11,14 +13,14 @@ export class NewRecipePage implements OnInit {
   ingredients: FormArray;
 
   constructor(
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private recipeService: RecipesService,
+    private router: Router
   ) { }
 
   ngOnInit() {
     this.ingredients = this.fb.array([
       new FormControl('', Validators.required),
-      new FormControl('', Validators.required),
-      new FormControl('', Validators.required)
     ])
 
     this.form = new FormGroup({
@@ -30,20 +32,28 @@ export class NewRecipePage implements OnInit {
         updateOn: 'blur',
         validators: [Validators.required, Validators.min(1)]
       }),
-      
       instructions: new FormControl(null, {
         updateOn:'blur',
         validators: [Validators.required, Validators.maxLength(200)]
       })
-
     });
   }
 
   onCreateRecipe() {
-    if(!this.form.valid) {
+    if(!this.form.valid || !this.ingredients.valid) {
       return;
     }
-    console.log('creating...')
+    //console.log(this.ingredients.value);
+    this.recipeService.addRecipe(
+      this.form.value.title,
+      this.form.value.preptime,
+      this.ingredients.value,
+      this.form.value.instructions
+    )
+    .subscribe(() => {
+      this.form.reset;
+      this.router.navigate(['recipes/tabs/my-recipes']);
+    });
   }
 
   addControl() {
@@ -51,6 +61,9 @@ export class NewRecipePage implements OnInit {
   }
 
   removeControl(index) {
+    if(index === 0) {
+      return;
+    }
     this.ingredients.removeAt(index);
   }
 }
