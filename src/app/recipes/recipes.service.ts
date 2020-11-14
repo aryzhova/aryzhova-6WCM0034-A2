@@ -3,30 +3,55 @@ import { Injectable } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
 import { Recipe } from './recipe.model';
 import { take, map, tap, delay, switchMap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RecipesService {
-  private _recipes: Recipe[] = [
-    new Recipe('r1', 'salmon', ['salmon', 'onions', 'tomatoes'], 20, 'delicious baked salmon', 'https://images.immediate.co.uk/production/volatile/sites/30/2020/08/the-health-benefits-of-salmon-700-350-5baa608.jpg?quality=90&resize=768,574', 'u1'),
-    new Recipe('r2', 'steak', ['salmon', 'onions', 'tomatoes'], 15, 'awesome steak', 'https://www.jessicagavin.com/wp-content/uploads/2018/06/how-to-reverse-sear-a-steak-11-1200.jpg', 'u1'),
-    new Recipe('r3', 'pasta carbonara', ['salmon', 'onions', 'tomatoes'], 30, 'just boil it', 'https://images.immediate.co.uk/production/volatile/sites/30/2020/08/recipe-image-legacy-id-1001491_11-2e0fa5c.jpg?quality=90&webp=true&resize=440,400', 'u1'),
-    new Recipe('r4', 'steak2', ['salmon', 'onions', 'tomatoes'], 45, 'awesome steak', 'https://www.jessicagavin.com/wp-content/uploads/2018/06/how-to-reverse-sear-a-steak-11-1200.jpg', 'u1'),
-    new Recipe('r5', 'pasta carbonara2', ['salmon', 'onions', 'tomatoes'], 35, 'just boil it', 'https://images.immediate.co.uk/production/volatile/sites/30/2020/08/recipe-image-legacy-id-1001491_11-2e0fa5c.jpg?quality=90&webp=true&resize=440,400', 'u1')
-  ];
+  //managing local state
+  private _recipes = new BehaviorSubject<Recipe[]>([]);
 
   constructor(
-    private http:|HttpClient,
+    private http: HttpClient,
     private authService: AuthService
   ) { }
 
   get recipes() {
-    return [...this._recipes];
+    return this._recipes.asObservable();
+  }
+
+  //fetching recipes from the server
+  //using map operator in order to modify recieved data into the right format
+  fetchRecipes() {
+    return this.http
+      .get('https://all-recipes-889f2.firebaseio.com/recipes.json')
+      .pipe(map(resData => {
+        const recipes = [];
+        for(const key in resData) {
+          if(resData.hasOwnProperty(key)){
+            recipes.push(new Recipe(
+              key,
+              resData[key].title,
+              resData[key].ingredients,
+              resData[key].preptime,
+              resData[key].instructions,
+              resData[key].imageUrl,
+              resData[key].userId
+            ))
+          }
+        }
+        return recipes;
+      }),
+      tap(recipes => {
+        this._recipes.next(recipes);
+      })
+      );
   }
 
   getRecipe(id: string) {
-    return this._recipes.filter(recipe => recipe.id === id)[0];
+    //return this._recipes.filter(recipe => recipe.id === id)[0];
+    return null;
   }
 
   addRecipe(
@@ -35,6 +60,7 @@ export class RecipesService {
     ingredients: string[],
     instructions: string
   ){
+    let newRecipeId: string;
     const newRecipe = new Recipe(
       null,
       title,
@@ -46,11 +72,17 @@ export class RecipesService {
     );
     //using observable
     return this.http
-    .post('https://all-recipes-889f2.firebaseio.com/recipes.json', { ...newRecipe})
+    .post<{ name: string }>('https://all-recipes-889f2.firebaseio.com/recipes.json', { ...newRecipe})
     .pipe(
-      tap(resData => {
-      console.log(resData);
-      })
+      switchMap(resData => {
+        newRecipeId = resData.name;
+        return this.recipes;
+      }),
+      take(1),
+      tap(recipes => {
+        newRecipe.id = newRecipeId;
+        this._recipes.next(recipes.concat(newRecipe));
+      })  
     );
   }
 

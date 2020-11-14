@@ -15,7 +15,9 @@ export class BrowseAllPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.fetchedRecipes = this.recipeService.recipes;
+   this.recipeService.recipes.subscribe(recipes => {
+     this.fetchedRecipes = recipes;
+   });
   }
 
 }

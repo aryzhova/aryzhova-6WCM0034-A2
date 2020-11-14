@@ -9,7 +9,7 @@
 
 <ion-content>
   <ion-grid>
-    <ion-row>
+    <ion-row *ngIf ="fetchedRecipes.length > 0">
       <ion-col size="12" size-sm="8" offset-sm="2" class="ion-text-center">
         <ion-card  
           [routerLink] = "['/', 'recipes', 'tabs', 'browse-all', fetchedRecipes[0].id]" 
@@ -24,7 +24,7 @@
         </ion-card>
       </ion-col>
     </ion-row>
-    <ion-row>
+    <ion-row *ngIf = "fetchedRecipes.length > 0">
       <ion-col 
         size="6" 
         size-sm="8" 
