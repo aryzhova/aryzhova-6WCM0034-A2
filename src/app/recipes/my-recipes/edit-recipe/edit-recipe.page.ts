@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { NavController } from '@ionic/angular';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AlertController, LoadingController, NavController } from '@ionic/angular';
 import { Recipe } from '../../recipe.model';
 import { RecipesService } from '../../recipes.service';
 
@@ -14,43 +14,56 @@ export class EditRecipePage implements OnInit {
   form: FormGroup;
   recipe: Recipe;
   ingredients: FormArray;
+  isLoading = false;
 
   constructor(
     private route: ActivatedRoute,
     private recipeService: RecipesService,
     private navCtrl: NavController,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private router: Router,
+    private loadingCtrl: LoadingController
   ) { }
 
   ngOnInit() {
+    
     this.route.paramMap.subscribe(paramMap => {
       if(!paramMap.has('recipeId')) {
         this.navCtrl.navigateBack('/recipes/tabs/my-recipes');
+        return;
       }
-      this.recipe = this.recipeService.getRecipe(paramMap.get('recipeId'));
+      this.isLoading = true;
+      this.recipeService.getRecipe(paramMap.get('recipeId'))
+        .subscribe(recipe => {
+          this.recipe = recipe;
+          console.log(this.recipe);
+          
+          this.ingredients = this.fb.array([]);
 
-      this.ingredients = this.fb.array([]);
+          for(let i=0; i<this.recipe.ingredients.length; i++){
+            this.ingredients.push(
+              new FormControl(this.recipe.ingredients[i], Validators.required)
+            );
+          }
 
-      for(let i=0; i<this.recipe.ingredients.length; i++){
-        this.ingredients.push(
-          new FormControl(this.recipe.ingredients[i], Validators.required)
-        );
-      }
+          this.form = new FormGroup({
+            title: new FormControl(this.recipe.title, {
+              updateOn: 'blur',
+              validators: [Validators.required]
+            }),
+            preptime: new FormControl(this.recipe.preptime, {
+              updateOn: 'blur',
+              validators: [Validators.required]
+            }),
+            instructions: new FormControl(this.recipe.instructions, {
+              updateOn:'blur',
+              validators: [Validators.required, Validators.maxLength(200)]
+            })
+          });
+          this.isLoading = false;
+          
+        });
 
-      this.form = new FormGroup({
-        title: new FormControl(this.recipe.title, {
-          updateOn: 'blur',
-          validators: [Validators.required]
-        }),
-        preptime: new FormControl(this.recipe.preptime, {
-          updateOn: 'blur',
-          validators: [Validators.required]
-        }),
-        instructions: new FormControl(this.recipe.instructions, {
-          updateOn:'blur',
-          validators: [Validators.required, Validators.maxLength(200)]
-        })
-      })
     })
   }
 
@@ -66,7 +79,27 @@ export class EditRecipePage implements OnInit {
     if(!this.form.valid) {
       return;
     }
-    console.log('updating...')
+    this.loadingCtrl.create({
+      message: "Updating recipe..."
+    })
+    .then(loadingElement => {
+      loadingElement.present();
+      this.recipeService.updateRecipe(
+        this.recipe.id,
+        this.form.value.title,
+        this.form.value.preptime,
+        this.form.value.ingredients,
+        this.form.value.instructions,
+        this.recipe.imageUrl
+      )
+      .subscribe(() => {
+        loadingElement.dismiss();
+        this.form.reset();
+        this.router.navigate(['/recipes/tabs/my-recipes']);
+      })
+    })
 
+    
+  
   }
 }

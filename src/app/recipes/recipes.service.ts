@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
 import { Recipe } from './recipe.model';
 import { take, map, tap, delay, switchMap } from 'rxjs/operators';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -50,8 +50,21 @@ export class RecipesService {
   }
 
   getRecipe(id: string) {
-    //return this._recipes.filter(recipe => recipe.id === id)[0];
-    return null;
+    return this.http
+      .get<Recipe>(`https://all-recipes-889f2.firebaseio.com/recipes/${id}.json`)
+      .pipe(
+        map(recipe => {
+          return new Recipe(
+            id,
+            recipe.title,
+            recipe.ingredients,
+            recipe.preptime,
+            recipe.instructions,
+            recipe.imageUrl,
+            recipe.userId
+          );
+        })
+      );
   }
 
   addRecipe(
@@ -84,6 +97,48 @@ export class RecipesService {
         this._recipes.next(recipes.concat(newRecipe));
       })  
     );
+  }
+
+  updateRecipe(
+    recipeId: string,
+    title: string,
+    preptime: number,
+    ingredients: string[],
+    instructions: string,
+    imageUrl: string
+    ) {
+      let updatedRecipes: Recipe[];
+      return this.recipes.pipe(
+        take(1),
+        switchMap(recipes => {
+          if(!recipes || recipes.length <= 0) { //checking if there are any recipes saved locally. if not fetching them from the server
+            return this.fetchRecipes();  
+          } else {
+            return of(recipes);
+          }
+        }),
+        switchMap(recipes => {
+          const updatedRecipeIndex = recipes.findIndex(recipe => recipe.id === recipeId);
+          updatedRecipes = [ ...recipes]; //updating local state
+          const oldRecipe = updatedRecipes[updatedRecipeIndex];
+          updatedRecipes[updatedRecipeIndex] = new Recipe(
+            oldRecipe.id,
+            title,
+            ingredients,
+            preptime,
+            instructions,
+            imageUrl,
+            oldRecipe.userId
+          );
+          return this.http
+            .put(`https://all-recipes-889f2.firebaseio.com/recipes/${recipeId}.json`,
+            { ...updatedRecipes[updatedRecipeIndex], id: null});
+          }
+        ),
+        tap(() => {
+          this._recipes.next(updatedRecipes);
+        }))
+        
   }
 
  

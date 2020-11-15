@@ -43,8 +43,7 @@ export class NewRecipePage implements OnInit {
     if(!this.form.valid || !this.ingredients.valid) {
       return;
     }
-    //console.log(this.ingredients.value);
-    this.recipeService.addRecipe(
+      this.recipeService.addRecipe(
       this.form.value.title,
       this.form.value.preptime,
       this.ingredients.value,

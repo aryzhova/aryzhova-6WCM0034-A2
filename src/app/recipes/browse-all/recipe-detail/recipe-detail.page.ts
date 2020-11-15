@@ -24,7 +24,10 @@ export class RecipeDetailPage implements OnInit {
       if(!paramMap.has('recipeId')) {
         this.navCtrl.navigateBack('/recipes/tabs/browse-all');
       }
-      this.recipe = this.recipeService.getRecipe(paramMap.get('recipeId'));
+      this.recipeService.getRecipe(paramMap.get('recipeId'))
+        .subscribe(recipe => {
+          this.recipe = recipe;
+        });
     })
   }
 
