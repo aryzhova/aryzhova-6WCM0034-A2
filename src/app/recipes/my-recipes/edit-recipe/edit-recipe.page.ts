@@ -40,7 +40,7 @@ export class EditRecipePage implements OnInit {
           
           this.ingredients = this.fb.array([]);
 
-          for(let i=0; i<this.recipe.ingredients.length; i++){
+          for(let i=0; i< this.recipe.ingredients.length; i++){
             this.ingredients.push(
               new FormControl(this.recipe.ingredients[i], Validators.required)
             );
@@ -83,12 +83,13 @@ export class EditRecipePage implements OnInit {
       message: "Updating recipe..."
     })
     .then(loadingElement => {
+      console.log(this.ingredients.value);
       loadingElement.present();
       this.recipeService.updateRecipe(
         this.recipe.id,
         this.form.value.title,
         this.form.value.preptime,
-        this.form.value.ingredients,
+        this.ingredients.value,
         this.form.value.instructions,
         this.recipe.imageUrl
       )

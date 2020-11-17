@@ -11,6 +11,7 @@ import { RecipesService } from '../../recipes.service';
 })
 export class RecipeDetailPage implements OnInit {
   recipe: Recipe;
+  isLoading = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -23,10 +24,13 @@ export class RecipeDetailPage implements OnInit {
     this.route.paramMap.subscribe(paramMap => {
       if(!paramMap.has('recipeId')) {
         this.navCtrl.navigateBack('/recipes/tabs/browse-all');
+        return;
       }
+      this.isLoading = true;
       this.recipeService.getRecipe(paramMap.get('recipeId'))
         .subscribe(recipe => {
           this.recipe = recipe;
+          this.isLoading = false;
         });
     })
   }
@@ -34,6 +38,11 @@ export class RecipeDetailPage implements OnInit {
   onSaveRecipe() {
     //this.router.navigateByUrl('/recipes/tabs/browse-all');
     this.navCtrl.navigateBack('/recipes/tabs/browse-all'); //in order to provide back animation
+  }
+
+  addToShoppingList(index: number) {
+    const ingredient = this.recipe.ingredients[index];
+    console.log(ingredient);
   }
 
 }

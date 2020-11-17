@@ -9,6 +9,7 @@ import { RecipesService } from '../recipes.service';
 })
 export class BrowseAllPage implements OnInit {
   fetchedRecipes: Recipe[];
+  isLoading = false;
 
   constructor(
     private recipeService: RecipesService
@@ -18,6 +19,13 @@ export class BrowseAllPage implements OnInit {
    this.recipeService.recipes.subscribe(recipes => {
      this.fetchedRecipes = recipes;
    });
+  }
+
+  ionViewWillEnter() {
+    this.isLoading = true;
+    this.recipeService.fetchRecipes().subscribe(() => {
+      this.isLoading = false;
+    });
   }
 
 }
