@@ -65,4 +65,8 @@ export class NewRecipePage implements OnInit {
     }
     this.ingredients.removeAt(index);
   }
+
+  onImagePicked(imageData: string){
+
+  }
 }

@@ -1,5 +1,7 @@
 {
   "name": "all-recipes",
-  "integrations": {},
+  "integrations": {
+    "capacitor": {}
+  },
   "type": "angular"
 }

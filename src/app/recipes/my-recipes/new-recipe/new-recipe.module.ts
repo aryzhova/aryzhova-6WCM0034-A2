@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { NewRecipePageRoutingModule } from './new-recipe-routing.module';
 
 import { NewRecipePage } from './new-recipe.page';
+import { ImagePickerComponent } from 'src/app/image-picker/image-picker.component';
 
 @NgModule({
   imports: [
@@ -15,6 +16,6 @@ import { NewRecipePage } from './new-recipe.page';
     IonicModule,
     NewRecipePageRoutingModule
   ],
-  declarations: [NewRecipePage]
+  declarations: [NewRecipePage, ImagePickerComponent]
 })
 export class NewRecipePageModule {}
