@@ -2,8 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
 import { Recipe } from './recipe.model';
-import { take, map, tap, delay, switchMap } from 'rxjs/operators';
-import { BehaviorSubject, of } from 'rxjs';
+import { take, map, tap, switchMap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of} from 'rxjs';
+import { finalize } from 'rxjs/operators';
+import { AngularFireStorage } from '@angular/fire/storage';
+
 
 @Injectable({
   providedIn: 'root'
@@ -11,10 +14,13 @@ import { BehaviorSubject, of } from 'rxjs';
 export class RecipesService {
   //managing local state
   private _recipes = new BehaviorSubject<Recipe[]>([]);
+  urlObservable: Observable<string>;
+  uploadedImageUrl: any;
 
   constructor(
     private http: HttpClient,
-    private authService: AuthService
+    private authService: AuthService,
+    private storage: AngularFireStorage
   ) { }
 
   get recipes() {
@@ -71,7 +77,8 @@ export class RecipesService {
     title: string, 
     preptime: number,
     ingredients: string[],
-    instructions: string
+    instructions: string,
+    imageUrl: string
   ){
     let newRecipeId: string;
     const newRecipe = new Recipe(
@@ -80,7 +87,7 @@ export class RecipesService {
       ingredients,
       preptime,
       instructions,
-      'https://cdn.loveandlemons.com/wp-content/uploads/2019/07/salad.jpg',
+      imageUrl,
       this.authService.userId
     );
     //using observable
@@ -141,5 +148,5 @@ export class RecipesService {
         
   }
 
- 
 }
+

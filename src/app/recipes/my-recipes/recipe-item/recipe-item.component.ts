@@ -14,7 +14,8 @@ export class RecipeItemComponent implements OnInit {
     private router: Router
   ) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   onEditRecipe(recipeId: string) {
     this.router.navigateByUrl('/recipes/tabs/my-recipes/edit-recipe/' + recipeId);
