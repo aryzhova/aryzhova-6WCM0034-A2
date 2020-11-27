@@ -11,6 +11,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AngularFireModule } from '@angular/fire';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { environment } from '../environments/environment';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 
@@ -21,7 +22,8 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
   entryComponents: [],
   imports: [BrowserModule, HttpClientModule, IonicModule.forRoot(), AppRoutingModule,
    AngularFireModule.initializeApp(environment.firebaseConfig),
-   AngularFireStorageModule
+   AngularFireStorageModule,
+   AngularFireDatabaseModule
   ],
   providers: [
     StatusBar,

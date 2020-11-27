@@ -4,7 +4,6 @@ import { AuthService } from '../auth/auth.service';
 import { Recipe } from './recipe.model';
 import { take, map, tap, switchMap } from 'rxjs/operators';
 import { BehaviorSubject, Observable, of} from 'rxjs';
-import { finalize } from 'rxjs/operators';
 import { AngularFireStorage } from '@angular/fire/storage';
 
 
@@ -14,13 +13,12 @@ import { AngularFireStorage } from '@angular/fire/storage';
 export class RecipesService {
   //managing local state
   private _recipes = new BehaviorSubject<Recipe[]>([]);
-  urlObservable: Observable<string>;
-  uploadedImageUrl: any;
+  //urlObservable: Observable<string>;
+  //uploadedImageUrl: any;
 
   constructor(
     private http: HttpClient,
     private authService: AuthService,
-    private storage: AngularFireStorage
   ) { }
 
   get recipes() {
@@ -32,7 +30,8 @@ export class RecipesService {
   fetchRecipes() {
     return this.http
       .get('https://all-recipes-889f2.firebaseio.com/recipes.json')
-      .pipe(map(resData => {
+      .pipe(
+      map(resData => {
         const recipes = [];
         for(const key in resData) {
           if(resData.hasOwnProperty(key)){

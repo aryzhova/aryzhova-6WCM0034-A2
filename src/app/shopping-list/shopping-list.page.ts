@@ -1,4 +1,7 @@
+import { ThrowStmt } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../auth/auth.service';
+import { ShoppingListService } from './shopping-list.service';
 
 @Component({
   selector: 'app-shopping-list',
@@ -7,16 +10,27 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ShoppingListPage implements OnInit {
   invalidInput = false;
-  shoppingItems = ['milk', 'bread', 'butter'];
+  shoppingItems = [];
   itemInput: string = ""
 
-  constructor() { }
+  constructor(
+    private authService: AuthService,
+    private shoppingService: ShoppingListService
+  ) { }
 
   ngOnInit() {
+    this.shoppingService.fetchItems().subscribe(items => {
+      this.shoppingItems = items;
+    });
+    
+    // this.shoppingService.shoppingListItems.subscribe(items => {
+    //   this.shoppingItems = items;
+    // })
   }
 
   onDeleteItem(index) {
-    this.shoppingItems.splice(index, 1);
+    this.shoppingService.deleteItem(index);
+    //this.shoppingItems.splice(index, 1);
   }
 
   onAddItem(item) {
@@ -25,10 +39,7 @@ export class ShoppingListPage implements OnInit {
       return;
     } else {
       this.invalidInput = false;
-      this.shoppingItems.push(item);
-     // document.querySelector('#item').innerHTML="";
+      this.shoppingService.addItem(item);
     }
-    
   }
-
 }

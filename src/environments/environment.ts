@@ -12,7 +12,8 @@ export const environment = {
     storageBucket: "all-recipes-889f2.appspot.com",
     messagingSenderId: "164777767826",
     appId: "1:164777767826:web:6483f9fdab9220f14c074b"
-  }
+  },
+  firebaseAPIKey: 'AIzaSyCJC9dkdEC5c0sP-DHPn7OBvyxP45vEhF4'
 };
 
 /*
