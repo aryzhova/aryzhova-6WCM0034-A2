@@ -56,6 +56,7 @@ export class AuthService {
   }
 
   createShoppingList(userId: string) {
-    this.http.post('https://all-recipes-889f2.firebaseio.com/shopping-list.json', {id: userId}).subscribe();
+
+    this.http.put(`https://all-recipes-889f2.firebaseio.com/shopping-list/${userId}.json`,{id: userId, items: []}).subscribe();
   }
 }

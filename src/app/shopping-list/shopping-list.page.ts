@@ -1,5 +1,6 @@
 import { ThrowStmt } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
+import { AlertController, ToastController } from '@ionic/angular';
 import { AuthService } from '../auth/auth.service';
 import { ShoppingListService } from './shopping-list.service';
 
@@ -14,23 +15,18 @@ export class ShoppingListPage implements OnInit {
   itemInput: string = ""
 
   constructor(
-    private authService: AuthService,
-    private shoppingService: ShoppingListService
+    private shoppingService: ShoppingListService,
+    public toastCtrl: ToastController
   ) { }
 
   ngOnInit() {
     this.shoppingService.fetchItems().subscribe(items => {
       this.shoppingItems = items;
     });
-    
-    // this.shoppingService.shoppingListItems.subscribe(items => {
-    //   this.shoppingItems = items;
-    // })
   }
 
   onDeleteItem(index) {
     this.shoppingService.deleteItem(index);
-    //this.shoppingItems.splice(index, 1);
   }
 
   onAddItem(item) {

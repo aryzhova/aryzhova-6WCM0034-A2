@@ -4,7 +4,6 @@ import { AuthService } from '../auth/auth.service';
 import { Recipe } from './recipe.model';
 import { take, map, tap, switchMap } from 'rxjs/operators';
 import { BehaviorSubject, Observable, of} from 'rxjs';
-import { AngularFireStorage } from '@angular/fire/storage';
 
 
 @Injectable({
