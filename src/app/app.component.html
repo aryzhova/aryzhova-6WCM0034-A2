@@ -1,7 +1,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
 
 <ion-app>
-  <ion-menu side="start">
+  <ion-menu side="start" *ngIf="this.authService.isAuthenticated">
     <ion-header>
       <ion-toolbar>
         <ion-img src="assets/icon/logo_transparent.png" class="logo"></ion-img>
