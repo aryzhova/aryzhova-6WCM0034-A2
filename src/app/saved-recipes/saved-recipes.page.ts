@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Recipe } from '../recipes/recipe.model';
+import { RecipesService } from '../recipes/recipes.service';
 
 @Component({
   selector: 'app-saved-recipes',
@@ -6,10 +8,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./saved-recipes.page.scss'],
 })
 export class SavedRecipesPage implements OnInit {
+  savedRecipes: Recipe[];
 
-  constructor() { }
+  constructor(
+    private recipeService: RecipesService
+  ) { }
 
   ngOnInit() {
+    this.recipeService.fetchSavedRecipes().subscribe(savedRecipes => {
+       this.savedRecipes = savedRecipes;
+    })
   }
 
 }

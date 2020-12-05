@@ -2,12 +2,12 @@
   style="padding:0px !important;"
   detail="false"
   lines="none">
-  <ion-thumbnail slot="start">
-    <ion-img [src] = "recipe.imageUrl"></ion-img>
-  </ion-thumbnail>
-  <ion-label>
-    <h4>{{ recipe.title }}</h4>
-  </ion-label>
+    <ion-thumbnail slot="start" [routerLink] = "['/', 'recipes', 'tabs', 'my-recipes', recipe.id]">
+      <ion-img [src] = "recipe.imageUrl"></ion-img>
+    </ion-thumbnail>
+    <ion-label [routerLink] = "['/', 'recipes', 'tabs', 'my-recipes', recipe.id]">
+      <h4>{{ recipe.title }}</h4>
+    </ion-label>
     <ion-buttons slot="end">
       <ion-button color="tertiary" (click) = "onEditRecipe(recipe.id)" >
         <ion-icon name="create" slot="icon-only"></ion-icon>

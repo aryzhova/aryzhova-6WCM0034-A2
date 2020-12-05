@@ -46,7 +46,7 @@ export class NewRecipePage implements OnInit {
     });
   }
 
-  async onCreateRecipe() {
+  onCreateRecipe() {
     if(!this.form.valid || !this.ingredients.valid) {
       return;
     }
@@ -96,12 +96,13 @@ export class NewRecipePage implements OnInit {
       const blob = await base64Response.blob();
       imageFile = blob;
     } catch (error) {
-      console.log(error);
+      console.log('error fetching image:', error);
       return;
     }
   } else {
     imageFile = imageData;
   }
+ 
   this.form.patchValue({ image: imageFile });
  }
 }

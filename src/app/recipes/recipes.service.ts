@@ -12,6 +12,7 @@ import { BehaviorSubject, Observable, of} from 'rxjs';
 export class RecipesService {
   //managing local state
   private _recipes = new BehaviorSubject<Recipe[]>([]);
+  
   //urlObservable: Observable<string>;
   //uploadedImageUrl: any;
 
@@ -146,5 +147,51 @@ export class RecipesService {
         
   }
 
+  saveRecipe(
+    id: string,
+    title: string, 
+    preptime: number,
+    ingredients: string[],
+    instructions: string,
+    imageUrl: string
+  ) {
+    const savedRecipe = new Recipe(
+      id,
+      title,
+      ingredients,
+      preptime,
+      instructions,
+      imageUrl,
+      this.authService.userId
+    );
+    return this.http.put(`https://all-recipes-889f2.firebaseio.com/saved-recipes/${this.authService.userId}/${id}.json`,{...savedRecipe}).subscribe();
+  }
+
+  fetchSavedRecipes() {
+    return this.http
+    .get(`https://all-recipes-889f2.firebaseio.com/saved-recipes/${this.authService.userId}.json`)
+    .pipe(
+       map(resData => {
+        const savedRecipes = [];
+        for(const key in resData) {
+          if(resData.hasOwnProperty(key)){
+            savedRecipes.push(new Recipe(
+              key,
+              resData[key].title,
+              resData[key].ingredients,
+              resData[key].preptime,
+              resData[key].instructions,
+              resData[key].imageUrl,
+              resData[key].userId
+            ))
+          }
+        }
+      return savedRecipes;
+      })
+      // tap(recipes => {
+      //   this._recipes.next(recipes);
+      // })
+    );
+  }
 }
 

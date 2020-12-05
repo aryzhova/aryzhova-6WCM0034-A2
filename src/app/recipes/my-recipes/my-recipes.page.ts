@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { AuthService } from 'src/app/auth/auth.service';
 import { Recipe } from '../recipe.model';
 import { RecipesService } from '../recipes.service';
 
@@ -15,12 +15,12 @@ export class MyRecipesPage implements OnInit {
 
   constructor(
     private recipeService: RecipesService,
-    private router: Router
+    private authService: AuthService
   ) { }
 
   ngOnInit() {
     this.recipeService.recipes.subscribe(recipes => {
-      this.myRecipes = recipes;
+      this.myRecipes = recipes.filter(recipe => recipe.userId === this.authService.userId);
     });
   }
 

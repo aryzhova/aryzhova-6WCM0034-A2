@@ -1,5 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/auth/auth.service';
 import { Recipe } from '../../recipe.model';
 
 @Component({
@@ -14,8 +16,7 @@ export class RecipeItemComponent implements OnInit {
     private router: Router
   ) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   onEditRecipe(recipeId: string) {
     this.router.navigateByUrl('/recipes/tabs/my-recipes/edit-recipe/' + recipeId);

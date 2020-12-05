@@ -33,21 +33,23 @@ export class ImagePickerComponent implements OnInit {
     Plugins.Camera.getPhoto({
       quality: 50,
       source: CameraSource.Prompt, //prompt is giving the choice whether to use camera or gallery
-      correctOrientation: true,
+      correctOrientation: true, //orie tation of images is automatically fixed
       height: 320,
       width: 200,
-      resultType: CameraResultType.DataUrl 
+      resultType: CameraResultType.DataUrl
     }).then(image => {
-      this.selectedImage = image.base64String;
+      console.log('image', image); 
+      this.selectedImage = image.dataUrl;
       this.showPreview = true;
-      this.imagePick.emit(image.base64String);
+      this.imagePick.emit(image.dataUrl);
     }).catch(error => {
-      console.log(error);
+      console.log('error occured: ', error);
       return false;
     });
   }
 
   onFileChosen(event) {
+    console.log('on file chosen');
     const pickedFile = event.target.files[0]; //as HTMLInputElement
     if(!pickedFile) {
       return;

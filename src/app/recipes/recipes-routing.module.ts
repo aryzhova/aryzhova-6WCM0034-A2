@@ -28,6 +28,10 @@ const routes: Routes = [
             path: '',
             loadChildren: () => import('./my-recipes/my-recipes.module').then(m => m.MyRecipesPageModule)
           },
+          {
+            path: ':recipeId',
+            loadChildren: () => import('./browse-all/recipe-detail/recipe-detail.module').then( m => m.RecipeDetailPageModule)
+          }
         ]
       },
       {
