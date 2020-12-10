@@ -57,11 +57,10 @@ export class EditRecipePage implements OnInit {
             }),
             instructions: new FormControl(this.recipe.instructions, {
               updateOn:'blur',
-              validators: [Validators.required, Validators.maxLength(200)]
+              validators: [Validators.required, Validators.maxLength(800)]
             })
           });
           this.isLoading = false;
-          
         });
 
     })

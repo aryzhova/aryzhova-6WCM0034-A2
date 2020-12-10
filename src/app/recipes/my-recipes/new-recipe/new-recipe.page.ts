@@ -40,7 +40,7 @@ export class NewRecipePage implements OnInit {
       }),
       instructions: new FormControl(null, {
         updateOn:'blur',
-        validators: [Validators.required, Validators.maxLength(200)]
+        validators: [Validators.required, Validators.maxLength(800)]
       }),
       image: new FormControl(null)
     });

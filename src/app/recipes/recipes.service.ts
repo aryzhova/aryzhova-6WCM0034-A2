@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
 import { Recipe } from './recipe.model';
 import { take, map, tap, switchMap } from 'rxjs/operators';
-import { BehaviorSubject, Observable, of} from 'rxjs';
-
+import { BehaviorSubject, of} from 'rxjs';
+import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
 
 @Injectable({
   providedIn: 'root'
@@ -19,12 +19,22 @@ export class RecipesService {
   constructor(
     private http: HttpClient,
     private authService: AuthService,
+    private db: AngularFireDatabase
   ) { }
 
   get recipes() {
     return this._recipes.asObservable();
   }
 
+  // searchRecipes(startAt, endAt): AngularFireList<any[]> {
+  //   console.log('startat:', startAt, 'endAt:', endAt);
+  //   return this.db.list('/recipes', ref => ref
+  //     .orderByChild('title')
+  //     .equalTo(startAt)
+  //   );
+  // }
+
+  
   //fetching recipes from the server
   //using map operator in order to modify recieved data into the right format
   fetchRecipes() {
@@ -193,5 +203,7 @@ export class RecipesService {
       // })
     );
   }
+
+  
 }
 
