@@ -60,7 +60,6 @@ export class NewRecipePage implements OnInit {
         finalize(() => {      //callback function
         return fileRef.getDownloadURL()
         .subscribe(url => {   //url of the uploaded image
-           // this.uploadedImageUrl = url;
              console.log('recipe service upload image function finalize: ', url);  
              this.recipeService.addRecipe(
               this.form.value.title,

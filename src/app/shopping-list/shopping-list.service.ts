@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { ToastController } from '@ionic/angular';
+import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AuthService } from '../auth/auth.service';
 
@@ -10,6 +11,7 @@ import { AuthService } from '../auth/auth.service';
 })
 export class ShoppingListService {
   private shoppingListItems: string[] = [];
+  items = new Subject<string[]>();
 
   constructor(
     private http: HttpClient,
@@ -27,18 +29,17 @@ export class ShoppingListService {
              //checking if there are already items in the shopping saved on the server 
               if(res['items']) {
                 this.shoppingListItems = res['items'];
+                this.items.next(res['items']);
               }
-            
              console.log('fetch', this.shoppingListItems, 'res[items]', res['items']);
-         
+
              return this.shoppingListItems;
-            
       })
       );
   }
 
   addItem (item: string){ 
-   console.log(this.shoppingListItems, item);
+   console.log('length again', this.shoppingListItems.length, item);
    if(this.shoppingListItems.length <= 0) {
      this.fetchItems().subscribe(items => {
       this.shoppingListItems = [...items];
@@ -46,12 +47,15 @@ export class ShoppingListService {
       this.shoppingListItems.push(item);
 
       let updatedList = [...this.shoppingListItems];
+      this.items.next(updatedList);
       this.updateItemsOnServer(updatedList);
+      
      });
    } else {
     this.shoppingListItems.push(item);
 
     let updatedList = [...this.shoppingListItems];
+    this.items.next(updatedList);
      this.updateItemsOnServer(updatedList);
    }
    
@@ -61,6 +65,7 @@ export class ShoppingListService {
     this.shoppingListItems.splice(index, 1);
 
     let updatedList = [...this.shoppingListItems];
+    this.items.next(updatedList);
     
     this.updateItemsOnServer(updatedList);
    

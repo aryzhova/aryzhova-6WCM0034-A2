@@ -1,7 +1,5 @@
-import { ThrowStmt } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
-import { AlertController, ToastController } from '@ionic/angular';
-import { AuthService } from '../auth/auth.service';
+import { ToastController } from '@ionic/angular';
 import { ShoppingListService } from './shopping-list.service';
 
 @Component({
@@ -20,8 +18,9 @@ export class ShoppingListPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.shoppingService.fetchItems().subscribe(items => {
+    this.shoppingService.items.subscribe(items => {
       this.shoppingItems = items;
+      console.log('onInit', this.shoppingItems);
     });
   }
 
@@ -33,7 +32,9 @@ export class ShoppingListPage implements OnInit {
     if(!item) {
       this.invalidInput = true;
       return;
-    } else {
+    } 
+    else {
+      console.log('shopping list items length: ', this.shoppingItems.length);
       this.invalidInput = false;
       this.shoppingService.addItem(item);
     }

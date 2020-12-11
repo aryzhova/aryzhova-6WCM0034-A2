@@ -9,6 +9,7 @@ import { RecipesService } from '../recipes/recipes.service';
 })
 export class SearchPage implements OnInit {
   allRecipes;
+  filteredRecipes;
   startAt: string;
   endAt: string;
   lastKeypress: number = 0; //event time stamp in milliseconds
@@ -25,10 +26,10 @@ export class SearchPage implements OnInit {
 
   search($event) {
 
-    let keyword = $event.target.value;
+    let keyword = $event.target.value.toLowerCase();
     console.log(keyword);
 
-    this.allRecipes = this.allRecipes.filter(recipe => recipe.title.includes(keyword, 0));
+    this.filteredRecipes = this.allRecipes.filter(recipe => recipe.title.toLowerCase().includes(keyword, 0));
 
     // if($event.timeStamp - this.lastKeypress > 1000) {
     //   let q = $event.target.value;

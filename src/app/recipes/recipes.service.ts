@@ -25,15 +25,6 @@ export class RecipesService {
   get recipes() {
     return this._recipes.asObservable();
   }
-
-  // searchRecipes(startAt, endAt): AngularFireList<any[]> {
-  //   console.log('startat:', startAt, 'endAt:', endAt);
-  //   return this.db.list('/recipes', ref => ref
-  //     .orderByChild('title')
-  //     .equalTo(startAt)
-  //   );
-  // }
-
   
   //fetching recipes from the server
   //using map operator in order to modify recieved data into the right format
