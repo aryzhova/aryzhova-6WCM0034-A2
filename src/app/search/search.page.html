@@ -15,7 +15,7 @@
         <p *ngIf ="!filteredRecipes" class="ion-text-center">No results found!</p>
         <ion-list *ngIf="filteredRecipes?.length > 0">
           <ion-card *ngFor="let recipe of filteredRecipes" class="ion-no-margin">
-            <app-recipe-item [recipe]="recipe" ></app-recipe-item>
+            <app-recipe-card [recipe]="recipe" ></app-recipe-card>
           </ion-card>
         </ion-list>
       </ion-col>

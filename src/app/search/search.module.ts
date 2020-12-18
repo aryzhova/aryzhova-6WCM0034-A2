@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { SearchPageRoutingModule } from './search-routing.module';
-import { RecipeItemComponent } from '../recipes/my-recipes/recipe-item/recipe-item.component';
+import { SharedModule } from "../shared.module";
 
 import { SearchPage } from './search.page';
 
@@ -14,8 +14,9 @@ import { SearchPage } from './search.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    SearchPageRoutingModule
+    SearchPageRoutingModule,
+    SharedModule
   ],
-  declarations: [SearchPage, RecipeItemComponent]
+  declarations: [SearchPage]
 })
 export class SearchPageModule {}

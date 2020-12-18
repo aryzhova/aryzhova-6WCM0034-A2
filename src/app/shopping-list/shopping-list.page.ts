@@ -20,8 +20,19 @@ export class ShoppingListPage implements OnInit {
   ngOnInit() {
     this.shoppingService.items.subscribe(items => {
       this.shoppingItems = items;
-      console.log('onInit', this.shoppingItems);
     });
+ 
+    this.shoppingService.fetchItems().subscribe();
+    console.log('onInit');
+  }
+
+  ionViewWillEnter(){
+    console.log('will enter');
+    
+  }
+  
+  ionViewHasEntered () {
+    console.log('has entered');
   }
 
   onDeleteItem(index) {

@@ -14,12 +14,11 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { environment } from '../environments/environment';
 import { AngularFireStorageModule } from '@angular/fire/storage';
-import { RecipeItemComponent } from './recipes/my-recipes/recipe-item/recipe-item.component';
-
+//import { RecipeItemComponent } from './recipe-item/recipe-item.component';
 
 
 @NgModule({
-  declarations: [AppComponent, RecipeItemComponent],
+  declarations: [AppComponent],
   entryComponents: [],
   imports: [BrowserModule, HttpClientModule, IonicModule.forRoot(), AppRoutingModule,
    AngularFireModule.initializeApp(environment.firebaseConfig),

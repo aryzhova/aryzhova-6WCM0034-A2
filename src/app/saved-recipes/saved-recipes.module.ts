@@ -5,17 +5,18 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { SavedRecipesPageRoutingModule } from './saved-recipes-routing.module';
+import { SharedModule } from "../shared.module";
 
 import { SavedRecipesPage } from './saved-recipes.page';
-import { RecipeItemComponent } from '../recipes/my-recipes/recipe-item/recipe-item.component';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    SavedRecipesPageRoutingModule
+    SavedRecipesPageRoutingModule,
+    SharedModule
   ],
-  declarations: [SavedRecipesPage, RecipeItemComponent]
+  declarations: [SavedRecipesPage]
 })
 export class SavedRecipesPageModule {}

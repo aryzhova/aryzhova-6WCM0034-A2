@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Subject } from 'rxjs';
 import { RecipesService } from '../recipes/recipes.service';
 
 @Component({

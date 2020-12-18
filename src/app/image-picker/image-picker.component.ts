@@ -33,7 +33,7 @@ export class ImagePickerComponent implements OnInit {
     Plugins.Camera.getPhoto({
       quality: 50,
       source: CameraSource.Prompt, //prompt is giving the choice whether to use camera or gallery
-      correctOrientation: true, //orie tation of images is automatically fixed
+      correctOrientation: true, //orientation of images is automatically fixed
       height: 320,
       width: 200,
       resultType: CameraResultType.DataUrl

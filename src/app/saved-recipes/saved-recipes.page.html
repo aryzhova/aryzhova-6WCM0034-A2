@@ -14,7 +14,7 @@
         <p *ngIf ="savedRecipes?.length === 0" class="ion-text-center">You didn't save any recipes yet!</p>
         <ion-list *ngIf="savedRecipes?.length > 0">
           <ion-card *ngFor="let recipe of savedRecipes" class="ion-no-margin">
-            <app-recipe-item [recipe]="recipe" ></app-recipe-item>
+            <app-recipe-card [recipe]="recipe" ></app-recipe-card>
           </ion-card>
         </ion-list>
       </ion-col>

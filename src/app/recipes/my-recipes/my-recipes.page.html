@@ -19,7 +19,7 @@
         <p *ngIf ="myRecipes.length === 0" class="ion-text-center">You don't have any recipes yet!</p>
         <ion-list *ngIf="myRecipes.length > 0">
           <ion-card *ngFor="let recipe of myRecipes" class="ion-no-margin">
-            <app-recipe-item [recipe]="recipe" ></app-recipe-item>
+            <app-recipe-item-editable [recipe]="recipe" ></app-recipe-item-editable>
           </ion-card>
         </ion-list>
       </ion-col>

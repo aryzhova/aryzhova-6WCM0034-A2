@@ -50,14 +50,19 @@ export class RecipeDetailPage implements OnInit {
   }
 
   onSaveRecipe() {
-    this.recipeService.saveRecipe(
-      this.recipe.id,
-      this.recipe.title,
-      this.recipe.preptime,
-      this.recipe.ingredients,
-      this.recipe.instructions,
-      this.recipe.imageUrl);
-      this.isSaved = true;
+    if(!this.isSaved) {
+      this.recipeService.saveRecipe(
+        this.recipe.id,
+        this.recipe.title,
+        this.recipe.preptime,
+        this.recipe.ingredients,
+        this.recipe.instructions,
+        this.recipe.imageUrl);
+        this.isSaved = true;
+    } else{
+      
+      this.isSaved = false;
+    }
     //this.navCtrl.navigateBack('/recipes/tabs/browse-all'); //in order to provide back animation
   }
 
