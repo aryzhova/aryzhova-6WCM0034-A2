@@ -26,15 +26,6 @@ export class ShoppingListPage implements OnInit {
     console.log('onInit');
   }
 
-  ionViewWillEnter(){
-    console.log('will enter');
-    
-  }
-  
-  ionViewHasEntered () {
-    console.log('has entered');
-  }
-
   onDeleteItem(index) {
     this.shoppingService.deleteItem(index);
   }
@@ -45,9 +36,20 @@ export class ShoppingListPage implements OnInit {
       return;
     } 
     else {
-      console.log('shopping list items length: ', this.shoppingItems.length);
-      this.invalidInput = false;
-      this.shoppingService.addItem(item);
+      let duplicate = this.shoppingItems.find(item => item.toLowerCase() === item.toLowerCase());
+      if(duplicate){
+        this.toastCtrl.create({
+          message: 'Item is already in your list!',
+          duration: 2000,
+          position: 'middle'
+        }).then(toast => {
+          toast.present();
+        })
+      } else {
+        this.invalidInput = false;
+        this.shoppingService.addItem(item);
+      }
+      
     }
   }
 }

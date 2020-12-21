@@ -7,7 +7,7 @@ import { RouterModule } from "@angular/router";
 @NgModule({
     declarations: [RecipeCardComponent],
     exports: [RecipeCardComponent, RouterModule],
-    imports: [IonicModule]
+    imports: [IonicModule, RouterModule]
 })
 
 export class SharedModule{}

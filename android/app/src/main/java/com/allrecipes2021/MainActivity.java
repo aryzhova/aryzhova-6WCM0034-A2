@@ -1,4 +1,4 @@
-package io.ionic.starter;
+package com.allrecipes2021;
 
 import android.os.Bundle;
 

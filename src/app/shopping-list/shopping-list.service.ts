@@ -21,7 +21,6 @@ export class ShoppingListService {
   ) { }
 
   fetchItems(){
-    console.log('uid', this.authService.userId);
     return this.http
       .get(`https://all-recipes-889f2.firebaseio.com/shopping-list/${this.authService.userId}.json`)
       .pipe(
@@ -31,8 +30,6 @@ export class ShoppingListService {
                 this.shoppingListItems = res['items'];
                 this.items.next(res['items']);
               }
-             console.log('fetch', this.shoppingListItems, 'res[items]', res['items']);
-
              return this.shoppingListItems;
       })
       );
@@ -84,17 +81,10 @@ export class ShoppingListService {
         .then(() => {
           self.toastCtrl.create({
             message: 'Your shopping list has been updated!',
-            position: 'bottom',
-            buttons: [
-              {
-                text: 'Done',
-                role: 'cancel',
-                handler: () => {
-                  console.log('Cancel clicked');
-                }
-              }
-            ]
-          }).then(toast => {
+            position: 'middle',
+            duration: 1000
+          })
+          .then(toast => {
             toast.present();
           })
         });

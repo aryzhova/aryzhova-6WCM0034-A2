@@ -168,6 +168,10 @@ export class RecipesService {
     return this.http.put(`https://all-recipes-889f2.firebaseio.com/saved-recipes/${this.authService.userId}/${id}.json`,{...savedRecipe}).subscribe();
   }
 
+  unsaveRecipe(id: string) {
+    this.http.delete(`https://all-recipes-889f2.firebaseio.com/saved-recipes/${this.authService.userId}/${id}.json`).subscribe();
+  }
+
   fetchSavedRecipes() {
     return this.http
     .get(`https://all-recipes-889f2.firebaseio.com/saved-recipes/${this.authService.userId}.json`)

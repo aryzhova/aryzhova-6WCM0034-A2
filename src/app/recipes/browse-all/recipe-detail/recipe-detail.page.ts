@@ -6,6 +6,7 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { ShoppingListService } from 'src/app/shopping-list/shopping-list.service';
 import { Recipe } from '../../recipe.model';
 import { RecipesService } from '../../recipes.service';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-recipe-detail',
@@ -23,7 +24,8 @@ export class RecipeDetailPage implements OnInit {
     private recipeService: RecipesService,
     private shoppingService: ShoppingListService,
     private http: HttpClient,
-    private authService: AuthService
+    private authService: AuthService,
+    public toastCtrl: ToastController
   ) { }
 
   ngOnInit() {
@@ -60,15 +62,29 @@ export class RecipeDetailPage implements OnInit {
         this.recipe.imageUrl);
         this.isSaved = true;
     } else{
-      
+      this.recipeService.unsaveRecipe(this.recipe.id);
       this.isSaved = false;
     }
-    //this.navCtrl.navigateBack('/recipes/tabs/browse-all'); //in order to provide back animation
   }
 
   addToShoppingList(index: number) {
-    const ingredient = this.recipe.ingredients[index];
-    this.shoppingService.addItem(ingredient);
+    const ingredientToAdd = this.recipe.ingredients[index];
+    let shoppingListItems;
+    this.shoppingService.fetchItems().subscribe(items => {
+      shoppingListItems = items;
+      let duplicate = shoppingListItems.find(item => item.toLowerCase() === ingredientToAdd.toLowerCase());
+      if(duplicate){
+        this.toastCtrl.create({
+          message: 'This item is already in your shopping list.',
+          position: 'middle',
+          duration: 2000
+        }).
+        then(toast => {
+          toast.present();
+        });
+      } else {
+        this.shoppingService.addItem(ingredientToAdd);
+      }
+    })
   }
-
 }
